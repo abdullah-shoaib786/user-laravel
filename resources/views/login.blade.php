@@ -36,14 +36,6 @@
                     <div class="card" style="border-radius: 15px;">
                         <div class="card-body p-5">
                             <h2 class="text-uppercase text-center mb-5">Login account</h2>
-                            @if(Session::get('status'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{Session::get('status')}}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            @endif
                             @if(Session::get('error'))
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     {{Session::get('error')}}
@@ -54,8 +46,9 @@
                             @endif
 
 
-                            <form method="POST" action="login" autocomplete="off">
+                            <form method="POST" action="/login" autocomplete="off">
                                 @csrf
+
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form3Example3cg">Your Email</label>
                                     <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" required/>

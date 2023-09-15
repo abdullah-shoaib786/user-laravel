@@ -1,11 +1,16 @@
 @extends('main')
 
 @section('content')
-
     <!DOCTYPE html>
 <html lang="en">
 <head>
-
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
 
         .myproducts_inner_wrapper {
@@ -39,11 +44,11 @@
     </style>
 </head>
 <body>
-@if(count($allProducts))
+
 <div class="trending-wrapper">
-    <h3 class="trending-products">Trending Products</h3>
     <div class="myproducts_inner_wrapper">
-        @foreach($allProducts as $item)
+        @if(count($searchProduct))
+        @foreach($searchProduct as $item)
             <div class="product_item">
                 <a href={{"productDetail/".$item['id']}}><div class="product_image_wrap"><img src="{{asset($item['gallery'])}}"></div></a>
                 <div class="product_desc">
@@ -51,15 +56,13 @@
                 </div>
             </div>
         @endforeach
-    </div>
+        @else
+            <h1>No Post Found</h1>
 
+        @endif
+    </div>
 </div>
-    @else
-no record found
-    @endif
 
 </body>
 </html>
-
-
 @stop

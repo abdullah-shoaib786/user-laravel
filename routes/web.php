@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,57 +14,34 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::view('signup','signup');
-//Route::view('login','login');
-Route::post('signup',[UserController::class,'save']);
-Route::post('login',[UserController::class,'userLogin']);
-Route::post('upload',[UserController::class,'uploadFile']);
-
-Route::get('/upload', function () {
-    if(session()->has('email')){
-        return view('profile');
-    }
-    return redirect('login');
+Route::group(['middleware'=>'web'],function (){
+   Route:: get('home',[ProductController::class,'getAllProducts']);
+    Route::get('addProduct',[UserController::class,'getId']);
+    Route::get('product', [ProductController::class, 'showProduct']);
 });
 
-Route::get('/home', function () {
-    if(session()->has('email')){
-        return view('home');
-    }
-    return redirect('login');
-});
-
-
-Route::get('/profile', function () {
-    if(session()->has('email')){
-        return view('profile');
-    }
-    return redirect('login');
-});
-
-
-Route::get('/home', function () {
-    if(session()->has('email')){
-        return view('home');
-    }
-    return redirect('login');
-});
-
-Route::get('/login', function () {
-    if(session()->has('email')){
-        return redirect('home');
-    }
+Route::get('login', function () {
     return view('login');
 });
 
-Route::get('/logout', function () {
-    if(session()->has('email')){
-        session()->pull('email');
-    }
-    return redirect('login');
-});
+Route::post('login',[UserController::class,'userLogin']);
+Route::view('signup','signup');
+Route::post('signup',[UserController::class,'save']);
+Route::get('logout',[UserController::class,'logout']);
+Route::get('editProduct/{id}',[ProductController::class,'getProductValue']);
 
+Route::get('deleteProduct/{id}',[ProductController::class,'deleteProduct']);
+
+Route::post('/updateProduct',[ProductController::class,'updateProductData']);
+
+Route::post('product',[ProductController::class,'saveProduct']);
+
+Route::get('productDetail/{id}',[ProductController::class,'productDetail']);
+
+Route::get('searchProduct',[ProductController::class,'searchProduct']);
+
+Route::post('/addToCart',[ProductController::class,'addToCart']);
+
+Route::get('/cartList',[ProductController::class,'getCartList']);
+
+Route::get('removeToCart/{id}',[ProductController::class,'removeToCart']);
