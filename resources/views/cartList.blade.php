@@ -19,9 +19,10 @@
     </style>
 </head>
 <body>
-
+@if(count($getCartProducts))
 <div class="container">
-    <h1> Cart List</h1>
+    <h1> Cart List</h1><br>
+    <a class="btn btn-primary" href="orderNow">Order Now</a><br><br>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -47,7 +48,9 @@
         </tbody>
     </table>
 </div>
-
+@else
+    <h1>No Products In The Cart List </h1>
+@endif
 </body>
 </html>
 @stop

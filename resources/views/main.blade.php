@@ -47,7 +47,7 @@
                 <a class="nav-link" href="/product">My Products</a>
             </li>
             <li class="nav-item">
-
+                <a class="nav-link" href="/orderList">Orders</a>
             </li>
 {{--            @if(Request::path() == 'home')--}}
             <form action="/searchProduct">

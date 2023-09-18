@@ -5,6 +5,7 @@ use App\Models\Cart;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Order;
 
 class ProductController extends Controller
 {
@@ -99,7 +100,7 @@ class ProductController extends Controller
     function addToCart(Request $req){
 
        if(auth()->user()){
-           DB::table('cart')->insert([
+          Cart::insert([
                'product_id' => $req->product_id ,
                'user_id' => auth()->id()
            ]);
@@ -118,8 +119,7 @@ class ProductController extends Controller
 
     function getCartList(){
         $loginUserId = auth()->id();
-        $getCartProducts = DB::table('cart')
-            ->join('products','cart.product_id','=','products.id')
+        $getCartProducts = Cart::join('products','cart.product_id','=','products.id')
             ->where('cart.user_id',$loginUserId)
             ->select('products.*','cart.id as cart_id')
             ->get();
@@ -128,5 +128,41 @@ class ProductController extends Controller
     function removeToCart($id){
         Cart::destroy($id);
         return redirect('cartList');
+    }
+
+    function orderNow(){
+        $loginUserId = auth()->id();
+          $getCartProductsSum = Cart::join('products','cart.product_id','=','products.id')
+            ->where('cart.user_id',$loginUserId)
+            ->sum('products.price');
+        return view('orderNow', compact('getCartProductsSum'));
+
+    }
+
+    function orderPlace(Request $req){
+        $loginUserId = auth()->id();
+        $allCarts = Cart::where('user_id',$loginUserId)->get();
+
+        foreach ($allCarts as $cart ){
+            Order::insert([
+                'product_id' => $cart->product_id ,
+                'user_id' => $cart->user_id,
+                'user_id' => $cart->user_id,
+                'status' => 'pending',
+                'payment_method' => $req->payment,
+                'address' => $req->address,
+            ]);
+            Cart::where('user_id',$loginUserId)->delete();
+
+        }
+        return redirect('home');
+    }
+
+    function getOrderList(){
+        $loginUserId = auth()->id();
+        $getOderList = Order::join('products','orders.product_id','=','products.id')
+            ->where('orders.user_id',$loginUserId)
+            ->get();
+        return view('orderList', compact('getOderList'));
     }
 }
