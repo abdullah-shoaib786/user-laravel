@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <label for="payment">Payment Method</label><br>
                     <input type="radio" value="online payment" name="payment"><span>Online Payment</span><br>
-                    <input type="radio" value="cash on delivery"  name="payment"><span>Payment on delivery</span><br>
+                    <input type="radio" value="payment on delivery"  name="payment"><span>Payment on delivery</span><br>
                 </div>
                 <button type="submit" class="btn btn-primary">Order Now</button>
             </form>

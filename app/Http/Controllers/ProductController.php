@@ -136,6 +136,8 @@ class ProductController extends Controller
             ->where('cart.user_id',$loginUserId)
             ->sum('products.price');
         return view('orderNow', compact('getCartProductsSum'));
+//        $getCartProductsSum = Cart::with('product')->where('user_id',$loginUserId)->get();
+//        return view('orderNow', compact('getCartProductsSum'));
 
     }
 
@@ -146,7 +148,6 @@ class ProductController extends Controller
         foreach ($allCarts as $cart ){
             Order::insert([
                 'product_id' => $cart->product_id ,
-                'user_id' => $cart->user_id,
                 'user_id' => $cart->user_id,
                 'status' => 'pending',
                 'payment_method' => $req->payment,
@@ -160,9 +161,20 @@ class ProductController extends Controller
 
     function getOrderList(){
         $loginUserId = auth()->id();
-        $getOderList = Order::join('products','orders.product_id','=','products.id')
-            ->where('orders.user_id',$loginUserId)
-            ->get();
+        $getOderList = Order::with('product')->where('user_id',$loginUserId)->get();
         return view('orderList', compact('getOderList'));
+//        $getOderList = Product::with('order')->get();
+//        return $getOderList;die();
+//        foreach ($getOderList as $item){
+//
+//           foreach($item->order as $item){
+//               return $item->status;die();
+//           }
+//        }
+//        if($getOderList->order != null){
+//            return '1';die();
+//        }
+//        return view('orderList', compact('getOderList'));
+
     }
 }

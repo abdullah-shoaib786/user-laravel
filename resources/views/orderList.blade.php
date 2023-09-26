@@ -21,6 +21,7 @@
 </head>
 <body>
 @if(count($getOderList))
+
     <div class="container">
         <h1> Order List</h1><br>
         <table class="table table-striped">
@@ -31,15 +32,16 @@
                 <th>Description</th>
                 <th>Image</th>
                 <th>status</th>
+
             </tr>
             </thead>
             <tbody>
             @foreach($getOderList as $orderItems)
                 <tr>
-                    <td>{{$orderItems->name}}</td>
+                    <td>{{$orderItems->product->name}}</td>
                     <td>{{$orderItems->payment_method}}</td>
-                    <td>{{$orderItems->description}}</td>
-                    <td><img src="{{asset($orderItems->gallery)}}" alt="Los Angeles" width="100" height="100"></td>
+                    <td>{{$orderItems->product->description}}</td>
+                    <td><img src="{{asset($orderItems->product->gallery)}}" alt="Los Angeles" width="100" height="100"></td>
                     <td>{{$orderItems->status}}</td>
                 </tr>
             @endforeach
